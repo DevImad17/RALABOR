@@ -1,7 +1,10 @@
-/*
- First PIC32MM program
- 
- This simple example program lets LED1 blink
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             /*
+ Benotete Programmieraufgabe
+ LED NEO PIXELRING 
+
+ von:
+ Imad Abu Shammah Matrikelnummer: 2424340
+ Fehmi Pakir  Matrikelnummer: XXXXXXX
  */
 
 #include <stdint.h>
@@ -11,212 +14,178 @@
 void SYSTEM_Initialize(void);
 
 #define LEDS 24
-//Arrays
+//Define Arrays fpr GRBW Colors
 uint8_t rgb[24][32]={
-    //      G           |          R              |        B             |        W         
-    {0,0,0,0,0,0,0,0   ,1,1,1,1,1,1,1,1 ,   0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //RED
-    {0,0,0,0,0,1,0,0   ,0,1,0,1,0,0,1,1     ,0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, // ORANGE
-    {1,1,1,1,1,1,1,1   ,1,1,1,1,1,1,1,1     ,0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //YELLOW
-    {1,1,1,1,1,1,1,1   ,0,0,0,0,0,0,0,0     ,0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //Green
-    { 0,0,0,0,0,0,0,0   ,0,0,0,0,0,0,0,0   ,1,1,1,1,1,1,1,1   ,0,0,0,0,0,0,0,0}, //Blue
-     { 0,0,0,0,0,1,0,0   ,0,0,0,0,0,0,0,0   ,0,0,0,1,0,0,1,1   ,0,0,0,0,0,0,0,0}, //Indigo
-     { 0,0,0,0,0,0,0,0    ,0,0,0,1,0,1,1,1 , 0,0,0,1,0,1,1,0   ,0,0,0,0,0,0,0,0}, //Violet
-     { 1,1,1,1,1,1,1,1     ,0,0,0,0,0,0,0,0  , 1,1,1,1,1,1,1,1     ,0,0,0,0,0,0,0,0}, //Cyan
-     { 0,0,0,0,0,0,0,0   ,1,1,1,1,1,1,1,1   ,1,1,1,1,1,1,1,1     ,0,0,0,0,0,0,0,0}, //Magenta
-     
-    {0,0,0,0,0,0,0,0   ,1,1,1,1,1,1,1,1   , 0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //RED
-    {0,0,0,0,0,1,0,0  , 0,1,0,1,0,0,1,1    ,0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, // ORANGE
-    {1,1,1,1,1,1,1,1   ,1,1,1,1,1,1,1,1     ,0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //YELLOW
-    {1,1,1,1,1,1,1,1   ,0,0,0,0,0,0,0,0      ,0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //Green
-    { 0,0,0,0,0,0,0,0   , 0,0,0,0,0,0,0,0   ,1,1,1,1,1,1,1,1   ,0,0,0,0,0,0,0,0}, //Blue
-     { 0,0,0,0,0,1,0,0   , 0,0,0,0,0,0,0,0    ,0,0,0,1,0,0,1,1   ,0,0,0,0,0,0,0,0}, //Indigo
-     { 0,0,0,0,0,0,0,0    ,0,0,0,1,0,1,1,1   ,0,0,0,1,0,1,1,0   ,0,0,0,0,0,0,0,0}, //Violet
-     { 1,1,1,1,1,1,1,1    ,0,0,0,0,0,0,0,0   ,1,1,1,1,1,1,1,1     ,0,0,0,0,0,0,0,0}, //Cyan
-     { 0,0,0,0,0,0,0,0  , 1,1,1,1,1,1,1,1   ,1,1,1,1,1,1,1,1     ,0,0,0,0,0,0,0,0}, //Magenta
+        //      G        |       R       |       B       |        W
+        {0,0,0,0,0,0,0,0 ,1,0,1,0,1,0,0,0 ,0,0,1,1,1,0,0,1 ,0,0,0,0,0,0,0,0} //Voilette29
+        {0,0,0,0,0,0,0,0 ,1,1,1,1,1,1,1,1 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0} //Pink28
+        {0,1,1,0,1,0,0,1 ,1,1,1,1,1,1,1,1 ,1,0,1,1,0,1,0,0 ,0,0,0,0,0,0,0,0} //Rosa27
+        {0,0,0,0,0,0,0,0 ,1,1,1,1,1,1,1,1 ,1,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //Magenta26
+        {0,0,0,0,0,0,0,0 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //Rot25
+        {0,1,0,0,1,0,0,1 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //RotOrange24
+        {0,1,1,0,1,1,0,1 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //OrangeOrange23
+        {1,0,0,1,0,0,1,0 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //Orange22
+        {1,0,1,1,0,1,1,0 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //OrangeGelb21
+        {1,1,0,1,1,0,1,1 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //DunkelGelb20
+        {1,1,1,1,1,1,1,1 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //Gelb19
+        {1,1,1,1,1,1,1,1 ,1,1,0,0,1,0,0,0 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //GelbGrün18
+        {1,1,1,1,1,1,1,1 ,1,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //GelbGrünGrün17
+        {1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //Grün16
+        {1,1,0,1,0,1,0,0 ,0,0,0,0,0,0,0,0 ,0,0,0,1,1,1,0,0 ,0,0,0,0,0,0,0,0} //DunkelGrün15
+        {1,0,1,1,0,0,1,1 ,0,0,0,1,0,1,1,1 ,0,1,0,0,1,1,0,1 ,0,0,0,0,0,0,0,0} //DunkelGrün14
+        {1,0,1,0,1,1,1,1 ,0,0,0,0,1,0,1,1 ,1,0,1,0,0,0,1,0 ,0,0,0,0,0,0,0,0} //Mint13
+        {1,0,0,1,1,1,1,1 ,0,0,0,0,0,0,0,1 ,1,1,1,0,1,0,0,0 ,0,0,0,0,0,0,0,0} //MintBlau12
+        {0,1,1,1,0,0,1,0 ,0,0,0,0,0,0,0,1 ,1,1,1,0,0,0,1,0 ,0,0,0,0,0,0,0,0} //Blau11
+        {0,1,0,0,0,1,0,0 ,0,0,0,0,0,0,0,0 ,1,1,0,1,1,1,0,0 ,0,0,0,0,0,0,0,0} //Cyan10
+        {0,0,0,0,0,0,0,0 ,0,0,0,0,0,1,0,0 ,1,1,0,1,0,0,0,0 ,0,0,0,0,0,0,0,0} //DunkelBlau9
+        {0,0,0,0,0,0,0,0 ,0,1,0,0,1,0,0,0 ,1,1,1,1,1,1,1,1 ,0,0,0,0,0,0,0,0} //DunkelBlau8
+        {0,0,0,0,0,0,0,0 ,0,1,1,0,0,1,0,1 ,1,0,0,1,1,0,1,1 ,0,0,0,0,0,0,0,0} //LilaBlau7
+        {0,0,0,0,0,0,0,0 ,1,0,0,0,0,0,0,0 ,1,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0} //Lila6
 
-    {0,0,0,0,0,0,0,0   ,1,1,1,1,1,1,1,1 ,   0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //RED
-    {0,0,0,0,0,1,0,0   ,0,1,0,1,0,0,1,1     ,0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, // ORANGE
-    {1,1,1,1,1,1,1,1   ,1,1,1,1,1,1,1,1    , 0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //YELLOW
-    {1,1,1,1,1,1,1,1   ,0,0,0,0,0,0,0,0    , 0,0,0,0,0,0,0,0  ,0,0,0,0,0,0,0,0}, //Green
-    { 0,0,0,0,0,0,0,0   , 0,0,0,0,0,0,0,0  , 1,1,1,1,1,1,1,1   ,0,0,0,0,0,0,0,0}, //Blue
-     { 0,0,0,0,0,1,0,0   , 0,0,0,0,0,0,0,0  , 0,0,0,1,0,0,1,1   ,0,0,0,0,0,0,0,0} //Indigo
 };
 
-uint8_t pixels[768]={0};
+//Define PixelBuffer
+uint8_t pixels[768] = { 0 };
+// Define Global Iteration variable I
 int i = 0;
-int state=0;
-void setup() { 
-SYSTEM_Initialize();  // set 16 MHz clock for CPU and Peripheral Bus
-                          // clock period = 41,667 ns = 0,0417 us   
-TRISCbits.TRISC0 = 1;//Output RB0
-TRISCbits.TRISC11 = 1;//Output RB0
+int state = 0;
 
-TRISC &= 0xFFFFFFFE ;     // clear bit 0 of Port B for output
+//Setup Method
+void setup()
+{
+    SYSTEM_Initialize();   // set 16 MHz clock for CPU and Peripheral Bus
 
+    TRISCbits.TRISC0 = 1;  //Output RC0
+
+    TRISC &= 0xFFFFFFFE;  // Clear Output Port C
 
 }
 
+void sendAssembler()
+{
+    asm volatile ("nop");
+    asm volatile (
+    "addi $t0,$zero,0       \n\t"  // i=0 for Buffer Iteration
+    "addi $t5,$zero,768     \n\t"  // $t5=768 Buffersize
+    "for:"
+    "beq $t0,$t5,end        \n\t"  // if i==768 (end of buffer) then  jump end
+    "la $s0,pixels          \n\t"  // Load Adress of Buffer in $s0
+    "add $t1,$t0,$s0        \n\t"  // Calculate Adress berechnen of pixels[i]]
+    "lbu $s1,0($t1)         \n\t"  // $s1= pixels[i]  Load Adress
+    "beq $s1,1,sendeeins    \n\t"  // Send 1 if $s1=1
+     "b sendenull           \n\t"  // else send 0 
 
-void sendAssembler(){  
-asm volatile("nop");
-asm volatile(
-    "addi $t0,$zero,0           \n\t" //j=0
-    "addi $t5,$zero,768     \n\t" // $t5=768
-     "for:" 
-  "beq $t0,$t5,end          \n\t" // j==32 jump ende
-    "la $s0,pixels              \n\t" // Adresse des Arrays laden in $s0
-    //"sll $t0,$t0,2\n\t" //i*4
-    "add $t1,$t0,$s0        \n\t"  //Adresse berechnen von pixels[i]]
-    "lbu $s1,0($t1)         \n\t" //$s1= pixels[i] Adresse Laden
-    "beq $s1,1,sendeeins \n\t"
-     "b sendenull \n\t"
-
-     // case 1
-     "sendeeins:"
-       "li $t1, 1           \n\t"     //loadi       
-      "sw $t1,PORTC  \n\t" //1 an PORT C ausgeben
-      "nop \n\t"
-      "nop \n\t"
-      "nop \n\t"
-      "nop \n\t"      
+     // case 1 (HIGH)
+    "sendeeins:"
+      "li $t1, 1            \n\t"  // t1=1    
+      "sw $t1,PORTC         \n\t"  // Send 1 to PortC (RC0)
+      "nop \n\t"                   // Nops for Time Delay of 0,6us
       "nop \n\t"
       "nop \n\t"
       "nop \n\t"
       "nop \n\t"
-      "nop \n\t"      
-      "nop \n\t"
-      "nop \n\t"      
       "nop \n\t"
       "nop \n\t"
       "nop \n\t"
-        "sw $zero,PORTC \n\t" // clear port c
-        
-        "addi $t0,$t0,1     \n\t" //j++
-       "b for                   \n\t"//0 an PORT C ausgeben
-       // case 0
-       "sendenull: "
-        "li $t1, 1                  \n\t"     //loadi       
-       "sw $t1,PORTC        \n\t" //1 an PORT C ausgeben
-       "nop \n\t"
-       "nop \n\t"
-       "nop \n\t"
-       "nop \n\t"
-       "nop \n\t"
-       "li $t1, 0 \n\t"     //loadi       
-       "sw $t1,PORTC    \n\t" //0 an PORT C aus
       "nop \n\t"
       "nop \n\t"
       "nop \n\t"
-
-       "addi $t0,$t0,1\n\t" // increment t0 as loop variable
-       "b for \n\t"
-       "end: \n\t"
+      "nop \n\t"
+      "nop \n\t"
+      "nop \n\t"
+      "sw $zero,PORTC       \n\t"  // Send 0 to PortC (RC0)
+      "addi $t0,$t0,1       \n\t"  // i++
+      "b for                \n\t"  // branch to for
+      // case 0 (LOW)
+      "sendenull: "
+      "li $t1, 1            \n\t"  // t1=1       
+      "sw $t1,PORTC         \n\t"  // Send 1 to PortC (RC0)
+      "nop \n\t"                   // Nops for Time Delay of 0,3us
+      "nop \n\t"
+      "nop \n\t"
+      "nop \n\t"
+      "nop \n\t"
+      "li $t1, 0            \n\t"  //t1=1       
+      "sw $t1,PORTC         \n\t"  // Send 0 to PortC (RC0)
+      "nop \n\t"                   // Nops for Time Delay of 0,9us
+      "nop \n\t"
+      "nop \n\t"
+      "addi $t0,$t0,1       \n\t"  // i++
+      "b for                \n\t"  // branch to for 
+      "end:                 \n\t"  // end of one buffer iteration through the whole buffer
      :
     :
-    :"t1"   
+    :"t1"
      );
 }
 
-
-void display(){
+// Display Function to Call Assembler Routine to 
+// Iterate through the whole Buffer
+void display()
+{
     sendAssembler();
-    
-    }
 
-
-
-void loop() { 
-    char active_led =0;
-    int i=0;
-    int durchlauf=0;
-    int bitstelle=0;
-    int y=0;
-    uint8_t nullen[768];
-       for(i=0;i<768;i++) {   
-           nullen[i]=0;
-       }
-      
-    
-    durchlauf= 0;
-    while(durchlauf<24){
-        //Pixel mit Nullen fühlen
-         for(i=0;i<768;i++) {   
-           pixels[i]=0;
-       }
-         //Pro durchlauf 32 Bit nullen
-     for(y=0;y<32*durchlauf ;y++) {         
-        pixels[bitstelle] = nullen[y];
-        bitstelle++;
-     }
-         // led farbe 
-        for(i=0;i<32;i++){
-              pixels[bitstelle] = rgb[durchlauf][i];
-              bitstelle++;
-        }
-        i=0;
-         for(i=0;i<(768-((durchlauf+1)*32));i++){
-              pixels[bitstelle] = 0;
-              bitstelle++;
-        }  
-        // update LEDs
-       display();
-        // delay between to updates
-        delay_us(50000);
-        durchlauf++;
-        bitstelle=0;
-    
-    }
-    
 }
-    
-
-    
-  
-
-  
-    
-   
-    
 
 
-//int i =0;
-//int state=0;
-//for(i=0;i<32;i++){
-//    state = pixels[i];
-//    
-//    if(state==0){
-//        LATCbits.LATC0 = 1;
-//        asm("nop");
-//         asm("nop");
-//          asm("nop");
-//         
-//       LATCbits.LATC0 = 0;
-//    }
-//    
-//    else{
-//        LATCSET=1;
-//              asm("nop");
-//               asm("nop");
-//                  asm("nop");
-//                        asm("nop");
-//         asm("nop");
-//          asm("nop");
-//               asm("nop");
-//         asm("nop");
-//          asm("nop");
-//               asm("nop");
-//               asm("nop");
-//               asm("nop");
-//        LATCCLR=1;
-//    }
-//}
+// Main Loop Function
+void loop()
+{
+    int i = 0;
+    int lednumber = 0;
+    int bitposition = 0;
+    int y = 0;
+    //Null Array to Fill the Unused LEDs Buffer with Nulls
+    uint8_t nulls[768];
+    for (i = 0; i < 768; i++)
+    {
+        nulls[i] = 0;
+    }
 
 
+    lednumber = 0;
+    while (lednumber < 24)
+    {
+     //Fill Pixel Buffer with Nulls 
+    for (i = 0; i < 768; i++)
+    {
+        pixels[i] = 0;
+    }
+     //Fill Pixel Buffer with Nulls to the selected LED
+    for (y = 0; y < 32 * lednumber; y++)
+    {
+         pixels[bitposition] = nulls[y];
+         bitposition++;
+    }
+     // LOAD GRBW Color in selected LED 
+     for (i = 0; i < 32; i++)
+     {
+          pixels[bitposition] = rgb[lednumber][i];
+          bitposition++;
+     }
+     // Fill the Rest of the Buffer with Nulls 
+     for (i = 0; i < (768 - ((lednumber + 1) * 32)); i++)
+     {
+          pixels[bitposition] = 0;
+          bitposition++;
+     }
+     // Load Buffer in the Ring by calling Assembler Routine
+     display();
+     // delay between to each LED
+     delay_us(50000);
+     lednumber++;
+     bitposition = 0;
+
+    }
 
 
-int main(void) {
+}
+// MAIN Program    
+int main(void)
+{
     setup();
-    while(1){
+    while (1)
+    {
         loop();
     }
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
